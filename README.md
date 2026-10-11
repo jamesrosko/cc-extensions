@@ -21,6 +21,7 @@ A collection of Claude Code extensions: plugins, mods, skills, and related tooli
 ## Installing
 
 Skills can be copied (or symlinked) into `~/.claude/skills/` (personal) or `.claude/skills/` (per project).
+To install all skills to your user folder, run `scripts/install-skills.ps1` (Windows) or `scripts/install-skills.sh` (macOS/Linux).
 Subagents can be copied into `~/.claude/agents/` (personal) or `.claude/agents/` (per project).
 To install all subagents to your user folder, run `scripts/install-subagents.ps1` (Windows) or `scripts/install-subagents.sh` (macOS/Linux).
 Commands can be copied into `~/.claude/commands/` (personal) or `.claude/commands/` (per project).
