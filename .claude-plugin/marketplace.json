@@ -1,0 +1,12 @@
+{
+  "name": "cc-extensions",
+  "owner": { "name": "James Rosko" },
+  "description": "Claude Code plugins and mods by James Rosko.",
+  "plugins": [
+    {
+      "name": "status-bar",
+      "source": "./mods/status-bar",
+      "description": "Band above the prompt showing model, effort, context used, prompt-cache TTL and session cost."
+    }
+  ]
+}
