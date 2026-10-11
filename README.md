@@ -10,6 +10,7 @@ A collection of Claude Code extensions: plugins, mods, skills, and related tooli
 | `skills/`  | Standalone skills (each a folder containing `SKILL.md`) |
 | `mods/`    | Mods that change Claude Code's interface or behavior  |
 | `subagents/` | Subagent definitions (markdown files with frontmatter) |
+| `commands/` | Slash commands (one markdown prompt file per command) |
 
 ## Adding an extension
 
@@ -21,3 +22,4 @@ A collection of Claude Code extensions: plugins, mods, skills, and related tooli
 
 Skills can be copied (or symlinked) into `~/.claude/skills/` (personal) or `.claude/skills/` (per project).
 Subagents can be copied into `~/.claude/agents/` (personal) or `.claude/agents/` (per project).
+Commands can be copied into `~/.claude/commands/` (personal) or `.claude/commands/` (per project).
