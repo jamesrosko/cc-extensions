@@ -13,6 +13,17 @@ const info = atom({ plugin: 'status-bar', key: 'info' } as const, {
 } as Info)
 const now = atom({ plugin: 'status-bar', key: 'now' } as const, 0)
 
+type Part = { text: string; color: string }
+
+// Higher effort burns more tokens, so it warms from green to red.
+const EFFORT_COLORS: Record<string, string> = {
+  low: 'green',
+  medium: 'cyan',
+  high: 'yellow',
+  xhigh: 'magenta',
+  max: 'red',
+}
+
 const shortModel = (id: string) => id.replace(/^claude-/, '').replace(/-\d{8}$/, '')
 
 const mmss = (ms: number) => {
@@ -58,19 +69,37 @@ export const register: Register = on => {
     ])
     const { Box, Text } = $.ui.resolve(e)
 
-    const parts: string[] = []
+    const parts: Part[] = []
     if (i.model) {
-      parts.push(shortModel(i.model) + (i.effort ? ` · ${i.effort}` : ''))
+      parts.push({
+        text: shortModel(i.model) + (i.effort ? ` · ${i.effort}` : ''),
+        color: EFFORT_COLORS[i.effort] ?? 'cyan',
+      })
     }
     if (usage.context.percent !== undefined) {
-      parts.push(`ctx ${usage.context.percent}%`)
+      const pct = usage.context.percent
+      parts.push({
+        text: `ctx ${pct}%`,
+        color: pct >= 85 ? 'red' : pct >= 60 ? 'yellow' : 'green',
+      })
     }
     if (i.lastResponseAt > 0) {
       const left = CACHE_TTL_MS - (Math.max(clock, tick) - i.lastResponseAt)
-      parts.push(left > 0 ? `cache ${mmss(left)}` : 'cache cold')
+      parts.push(
+        left <= 0
+          ? { text: 'cache cold', color: 'red' }
+          : {
+              text: `cache ${mmss(left)}`,
+              color: left <= CACHE_TTL_MS * 0.2 ? 'red' : left <= CACHE_TTL_MS * 0.5 ? 'yellow' : 'green',
+            },
+      )
     }
     if (usage.cost) {
-      parts.push(`$${usage.cost.usd.toFixed(2)}`)
+      const usd = usage.cost.usd
+      parts.push({
+        text: `$${usd.toFixed(2)}`,
+        color: usd >= 10 ? 'red' : usd >= 3 ? 'yellow' : 'green',
+      })
     }
 
     if (parts.length === 0) {
@@ -79,7 +108,12 @@ export const register: Register = on => {
 
     return (
       <Box>
-        <Text dimColor>{parts.join('  │  ')}</Text>
+        {parts.map((p, n) => (
+          <Text key={p.text.split(' ')[0]}>
+            {n > 0 ? <Text dimColor>{'  │  '}</Text> : null}
+            <Text color={p.color}>{p.text}</Text>
+          </Text>
+        ))}
       </Box>
     )
   })
