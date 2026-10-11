@@ -1,6 +1,10 @@
 {
   "name": "status-bar",
   "version": "0.1.0",
+  "author": {
+    "name": "James Rosko",
+    "email": "jamesrosko@gmail.com"
+  },
   "description": "Band above the prompt showing model, effort, context used, prompt-cache TTL and session cost.",
   "types": "./types/index.d.ts"
 }

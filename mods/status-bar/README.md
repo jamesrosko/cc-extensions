@@ -20,6 +20,15 @@ Each field is colored by its state:
 
 Thresholds live in the `ui.render` hook in `hooks/register.tsx`.
 
+## Install
+
+```
+/plugin marketplace add jamesrosko/cc-extensions
+/plugin install status-bar@cc-extensions
+```
+
+Or install in one step: `/plugin install status-bar --marketplace jamesrosko/cc-extensions`
+
 ## Try it
 
 `claude --plugin-dir mods/status-bar`

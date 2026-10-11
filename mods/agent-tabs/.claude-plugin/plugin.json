@@ -1,0 +1,10 @@
+{
+  "name": "agent-tabs",
+  "version": "0.1.0",
+  "author": {
+    "name": "James Rosko",
+    "email": "jamesrosko@gmail.com"
+  },
+  "description": "Clickable tab row above the prompt: one tab per agent in this session (name, model, status); a click shows that agent's transcript in a pane.",
+  "types": "./types/index.d.ts"
+}
