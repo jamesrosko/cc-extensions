@@ -29,3 +29,23 @@ jobs:
             echo "::endgroup::"
           done
           exit $status
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Test mods and plugins
+        run: |
+          status=0
+          for dir in mods/*/ plugins/*/; do
+            node -e 'process.exit(require(process.argv[1]).scripts?.test ? 0 : 1)' "./${dir}package.json" 2>/dev/null || continue
+            echo "::group::$dir"
+            (cd "$dir" && npm ci && npm test) || status=1
+            echo "::endgroup::"
+          done
+          exit $status

@@ -32,3 +32,13 @@ Or install in one step: `/plugin install status-bar --marketplace jamesrosko/cc-
 ## Try it
 
 `claude --plugin-dir mods/status-bar`
+
+## Tests
+
+```sh
+cd mods/status-bar
+npm install
+npm test
+```
+
+Tests run with Vitest against a stub of the runtime-only `claude-code` module (`tests/claude-code.stub.ts`).
