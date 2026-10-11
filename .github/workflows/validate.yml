@@ -1,0 +1,31 @@
+name: Validate
+
+on:
+  push:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate marketplace
+        run: claude plugin validate .
+
+      - name: Validate mods and plugins
+        run: |
+          status=0
+          for dir in mods/*/ plugins/*/; do
+            [ -f "$dir/.claude-plugin/plugin.json" ] || continue
+            echo "::group::$dir"
+            claude plugin validate "$dir" || status=1
+            echo "::endgroup::"
+          done
+          exit $status
